@@ -8,3 +8,10 @@
 
 
 
+### How to Build.
+
+'''  
+$ python-lambda-local --function lambda_handler --timeout 5 lambda_function.py event.json  
+$ lambda-uploader
+
+'''
