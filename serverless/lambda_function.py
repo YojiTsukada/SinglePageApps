@@ -81,8 +81,10 @@ def lambda_handler(event, context):
     insert_data(request)
 
     return {
-        'isBase64Encoded': True,
+        'isBase64Encoded': False,
         "statusCode": 200,
-        "headers": {},
-        "body": 'Thank you!',
+        "headers": {
+            'content-type': 'text/html',
+        },
+        "body": "<html><head><title>Thanks.</title></head><body><h2>Thank you !</h2></body></html>",
     }
