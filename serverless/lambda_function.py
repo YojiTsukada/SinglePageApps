@@ -59,6 +59,8 @@ def insert_data(request):
        }
     )
 
+    print('Insert ID : ' + str(next_id) + ' is completed.')
+
     return 
 
     
@@ -80,11 +82,16 @@ def lambda_handler(event, context):
     # insert form data.
     insert_data(request)
 
+
+    # read response file.
+    with open("html/thanks.html", "r") as f:
+        response = f.read()
+
     return {
         'isBase64Encoded': False,
         "statusCode": 200,
         "headers": {
             'content-type': 'text/html',
         },
-        "body": "<html><head><title>Thanks.</title></head><body><h2>Thank you !</h2></body></html>",
+        "body": response
     }
