@@ -1,5 +1,7 @@
 import json
 import boto3
+import time
+from decimal import Decimal
 from datetime import datetime
 from boto3.dynamodb.conditions import Key, Attr
 
@@ -32,19 +34,46 @@ def increment_seq():
        }
     )
 
+    return next_id
+
+
+def insert_data(request):
+
+    # get sequenceid
+    next_id = increment_seq()
+
+    # get unixtime
+    date = time.time()
+
+    # set table name
+    table = dynamodb.Table('form_data')
+
+    # insert
+    table.put_item(
+    Item={
+        'id': int(next_id),
+        'address':request['mailaddress'],
+        'message':request['message'],
+        'date': Decimal(date)
+       }
+    )
+
     return 
 
     
 def lambda_handler(event, context):
-    increment_seq()
 
     input_message = event['body'].split("&")
     
     request = {}
     
+    # setting post data.
     for n in input_message:
         data = n.split("=")
         request[data[0]] = data[1] 
+    
+    # insert form data.
+    insert_data(request)
 
     return {
         "statusCode": 200,
