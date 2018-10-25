@@ -1,6 +1,7 @@
 import json
 import boto3
 import time
+import urllib
 from decimal import Decimal
 from datetime import datetime
 from boto3.dynamodb.conditions import Key, Attr
@@ -63,7 +64,11 @@ def insert_data(request):
     
 def lambda_handler(event, context):
 
-    input_message = event['body'].split("&")
+    # url decode 
+    post_data = urllib.parse.unquote(event['body'])
+
+    # parse
+    input_message = post_data.split("&")
     
     request = {}
     
@@ -71,12 +76,13 @@ def lambda_handler(event, context):
     for n in input_message:
         data = n.split("=")
         request[data[0]] = data[1] 
-    
+
     # insert form data.
     insert_data(request)
 
     return {
+        'isBase64Encoded': True,
         "statusCode": 200,
         "headers": {},
-        "body": json.dumps(request)
+        "body": 'Thank you!',
     }

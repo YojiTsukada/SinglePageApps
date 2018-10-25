@@ -3,3 +3,9 @@ outputfile.txt
 
 # cache
 */__pycache__/*
+
+
+# lambda-uploader
+.lambda_uploader_temp
+
+.python-version

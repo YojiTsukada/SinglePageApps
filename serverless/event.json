@@ -1,5 +1,5 @@
 {
-    "body": "mailaddress=akasatana&message=hamayarawa",
+    "body": "mailaddress=test@gmail.com&message=こんばんは",
     "resource": "/action",
     "requestContext": {
         "requestTime": "24/Oct/2018:01:21:07 +0000",
