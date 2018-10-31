@@ -1,0 +1,9 @@
+{
+    "name": "sendmail",
+    "description": "send mail by lambda.",
+    "region": "us-east-1",
+    "handler": "lambda_function.lambda_handler",
+    "role": "arn:aws:iam::421733858730:role/lambda-s3-execution-role",
+    "timeout": 300,
+    "memory": 128
+}

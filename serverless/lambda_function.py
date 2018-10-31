@@ -1,10 +1,11 @@
 import json
-import boto3
 import time
 import urllib
-from decimal import Decimal
 from datetime import datetime
-from boto3.dynamodb.conditions import Key, Attr
+from decimal import Decimal
+
+import boto3
+from boto3.dynamodb.conditions import Attr, Key
 
 # DynamoDB
 dynamodb = boto3.resource('dynamodb')
@@ -63,6 +64,24 @@ def insert_data(request):
 
     return 
 
+
+
+def invoke_lambda(request,function_name):
+    clientLambda = boto3.client("lambda")
+    # 引数
+    params = {
+        'address':request['mailaddress'],
+        'message':request['message'],
+    }
+
+    res = clientLambda.invoke(
+        FunctionName=function_name,
+        InvocationType="RequestResponse",
+        Payload=json.dumps(params)
+    )
+
+    return res
+
     
 def lambda_handler(event, context):
 
@@ -82,6 +101,8 @@ def lambda_handler(event, context):
     # insert form data.
     insert_data(request)
 
+    # send mail
+    invoke_lambda(request,'sendmail')
 
     # read response file.
     with open("html/thanks.html", "r") as f:

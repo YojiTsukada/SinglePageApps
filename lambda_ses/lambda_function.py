@@ -1,0 +1,37 @@
+import boto3
+import json
+import urllib 
+
+client = boto3.client('ses')
+ 
+from_address = "yoj3223@gmail.com"
+
+def send_email(source, to, subject, body):
+    response = client.send_email(
+        Source=source,
+        Destination={
+            'ToAddresses': [
+                to,
+            ]
+        },
+        Message={
+            'Subject': {
+                'Data': subject,
+            },
+            'Body': {
+                'Text': {
+                    'Data': body,
+                },
+            }
+        }
+    )
+
+    return response
+ 
+def lambda_handler(event, context):
+    subject = "Thank you for your information."
+    message = urllib.parse.unquote(event['message'])
+    dest_address = event['address']
+    r = send_email(from_address, dest_address, subject, message)
+    print(event)
+    return 
